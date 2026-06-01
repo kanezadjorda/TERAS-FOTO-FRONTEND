@@ -12,6 +12,9 @@ import {
 	Calendar,
 	MapPin,
 	Users,
+	XCircle,
+	ArrowRight,
+	Home,
 } from 'lucide-react';
 import useSWR from 'swr';
 import { api } from '@/lib/api';
@@ -39,6 +42,7 @@ function LoadingState() {
 function BookingSuccessContent() {
 	const searchParams = useSearchParams();
 	const orderId = searchParams.get('order_id');
+	const status = searchParams.get('transaction_status');
 
 	// Fetch data booking berdasarkan order_id
 	// Jika tidak ada order_id, kita bisa fetch booking terakhir user, tapi untuk sekarang kita asumsikan ada order_id
@@ -77,78 +81,111 @@ function BookingSuccessContent() {
 		hour12: true,
 	}).format(new Date(data.start_time));
 
+	// Tentukan UI berdasarkan status transaksi
+	const isPending = status === 'pending';
+	const isFailed = status === 'deny' || status === 'cancel' || status === 'expire';
+	const isSuccess = !isPending && !isFailed; // settlement, capture, atau default
+
 	return (
 		<div className="min-h-screen bg-[#FAF8F5] pt-32 pb-20 px-4 md:px-8 lg:px-16">
 			<div className="max-w-6xl mx-auto">
 				{/* Header */}
-				<div className="mb-12">
-					<p className="font-poppins text-[16px] text-[#705D00] tracking-[0.1em] uppercase mb-4">
-						BOOKING &gt; PEMBAYARAN
-					</p>
-					<h1 className="font-poppins font-bold text-[36px] md:text-[48px] text-[#705D00] leading-[1.2] tracking-[-0.02em] mb-4">
-						Lihat Status Pesanan
+				<div className="mb-12 text-center">
+					<div className="flex justify-center mb-6">
+						{isSuccess && (
+							<div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center">
+								<Check className="w-12 h-12 text-green-600" />
+							</div>
+						)}
+						{isPending && (
+							<div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center">
+								<Clock className="w-12 h-12 text-orange-600" />
+							</div>
+						)}
+						{isFailed && (
+							<div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center">
+								<XCircle className="w-12 h-12 text-red-600" />
+							</div>
+						)}
+					</div>
+					<h1 className="font-poppins font-bold text-[36px] md:text-[48px] text-[#1A1C1C] leading-[1.2] tracking-[-0.02em] mb-4">
+						{isSuccess && 'Pembayaran Berhasil!'}
+						{isPending && 'Menunggu Pembayaran'}
+						{isFailed && 'Pembayaran Gagal/Dibatalkan'}
 					</h1>
-					<p className="font-poppins text-[16px] md:text-[18px] text-[#4D4732] leading-[1.6] max-w-2xl">
-						Lihat progres sesi foto kamu di sini, dari jepretan pertama sampai siap diunduh.
+					<p className="font-poppins text-[16px] md:text-[18px] text-[#4D4732] leading-[1.6] max-w-2xl mx-auto">
+						{isSuccess &&
+							'Terima kasih! Pesanan Anda telah dikonfirmasi dan sesi foto telah dijadwalkan.'}
+						{isPending &&
+							'Silakan selesaikan pembayaran Anda melalui instruksi Midtrans yang telah diberikan.'}
+						{isFailed &&
+							'Maaf, pembayaran Anda tidak dapat diproses atau telah dibatalkan. Silakan coba lakukan pemesanan kembali.'}
 					</p>
+					{orderId && (
+						<p className="font-poppins text-[14px] text-[#705D00] mt-4 font-medium">
+							Order ID: {orderId}
+						</p>
+					)}
 				</div>
 
-				{/* Progress Tracker */}
-				<div className="bg-white rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-8 mb-8 overflow-x-auto">
-					<div className="min-w-[800px] relative flex justify-between items-start px-8">
-						{/* Connecting Lines */}
-						<div className="absolute top-6 left-[10%] right-[10%] h-[5px] bg-[#E2E2E2] z-0"></div>
-						<div className="absolute top-6 left-[10%] w-[60%] h-[5px] bg-[#705D00] z-0"></div>
+				{/* Progress Tracker (Hanya tampil jika sukses) */}
+				{isSuccess && (
+					<div className="bg-white rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-8 mb-8 overflow-x-auto">
+						<div className="min-w-[800px] relative flex justify-between items-start px-8">
+							{/* Connecting Lines */}
+							<div className="absolute top-6 left-[10%] right-[10%] h-[5px] bg-[#E2E2E2] z-0"></div>
+							<div className="absolute top-6 left-[10%] w-[60%] h-[5px] bg-[#705D00] z-0"></div>
 
-						{/* Step 1 */}
-						<div className="relative z-10 flex flex-col items-center w-1/4">
-							<div className="w-12 h-12 rounded-full bg-[#705D00] flex items-center justify-center mb-4">
-								<Check className="w-6 h-6 text-white" />
+							{/* Step 1 */}
+							<div className="relative z-10 flex flex-col items-center w-1/4">
+								<div className="w-12 h-12 rounded-full bg-[#705D00] flex items-center justify-center mb-4">
+									<Check className="w-6 h-6 text-white" />
+								</div>
+								<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
+									Booking
+									<br />
+									Berhasil
+								</p>
 							</div>
-							<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
-								Booking
-								<br />
-								Berhasil
-							</p>
-						</div>
 
-						{/* Step 2 */}
-						<div className="relative z-10 flex flex-col items-center w-1/4">
-							<div className="w-12 h-12 rounded-full bg-[#705D00] flex items-center justify-center mb-4">
-								<Check className="w-6 h-6 text-white" />
+							{/* Step 2 */}
+							<div className="relative z-10 flex flex-col items-center w-1/4">
+								<div className="w-12 h-12 rounded-full bg-[#705D00] flex items-center justify-center mb-4">
+									<Check className="w-6 h-6 text-white" />
+								</div>
+								<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
+									Pembayaran
+									<br />
+									Dikonfirmasi
+								</p>
 							</div>
-							<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
-								Pembayaran
-								<br />
-								Dikonfirmasi
-							</p>
-						</div>
 
-						{/* Step 3 */}
-						<div className="relative z-10 flex flex-col items-center w-1/4">
-							<div className="w-12 h-12 rounded-full bg-[#705D00] flex items-center justify-center mb-4">
-								<Check className="w-6 h-6 text-white" />
+							{/* Step 3 */}
+							<div className="relative z-10 flex flex-col items-center w-1/4">
+								<div className="w-12 h-12 rounded-full bg-[#705D00] flex items-center justify-center mb-4">
+									<Check className="w-6 h-6 text-white" />
+								</div>
+								<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
+									Sesi Foto
+									<br />
+									Dijadwalkan
+								</p>
 							</div>
-							<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
-								Sesi Foto
-								<br />
-								Dijadwalkan
-							</p>
-						</div>
 
-						{/* Step 4 (Active) */}
-						<div className="relative z-10 flex flex-col items-center w-1/4">
-							<div className="w-12 h-12 rounded-full bg-[#FFD700] border-[5px] border-[#F3E08F] flex items-center justify-center mb-4">
-								<div className="w-3 h-3 bg-[#705D00] rounded-full"></div>
+							{/* Step 4 (Active) */}
+							<div className="relative z-10 flex flex-col items-center w-1/4">
+								<div className="w-12 h-12 rounded-full bg-[#FFD700] border-[5px] border-[#F3E08F] flex items-center justify-center mb-4">
+									<div className="w-3 h-3 bg-[#705D00] rounded-full"></div>
+								</div>
+								<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
+									Lihat Hasil
+									<br />
+									Foto
+								</p>
 							</div>
-							<p className="font-poppins font-bold text-[14px] md:text-[16px] text-[#1A1C1C] text-center leading-[1.6]">
-								Lihat Hasil
-								<br />
-								Foto
-							</p>
 						</div>
 					</div>
-				</div>
+				)}
 
 				{/* Main Content Grid */}
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -211,54 +248,74 @@ function BookingSuccessContent() {
 								</div>
 							</div>
 
-							<button className="w-full mt-6 bg-[#705D01] hover:bg-[#5C4C00] transition-colors text-white font-poppins font-bold text-[18px] md:text-[20px] py-4 rounded-[20px] flex items-center justify-center gap-3">
-								<Download className="w-6 h-6" />
-								Download Invoice
-							</button>
+							{isSuccess && (
+								<button className="w-full mt-6 bg-[#705D01] hover:bg-[#5C4C00] transition-colors text-white font-poppins font-bold text-[18px] md:text-[20px] py-4 rounded-[20px] flex items-center justify-center gap-3">
+									<Download className="w-6 h-6" />
+									Download Invoice
+								</button>
+							)}
 						</div>
 					</div>
 
 					{/* Right Column - Process Status & Support */}
 					<div className="lg:col-span-7 space-y-8">
-						{/* Process Status */}
-						<div className="bg-[#E2E2E2] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-8 relative overflow-hidden">
-							<div className="bg-[#705E00] inline-block px-4 py-1.5 rounded-full mb-6">
-								<span className="font-poppins font-semibold text-[10px] text-white tracking-[0.1em] uppercase">
-									STATUS PROSES
-								</span>
-							</div>
-
-							<h3 className="font-poppins font-semibold text-[24px] text-[#1A1C1C] mb-4">
-								Proses Editing Sedang Berlangsung.
-							</h3>
-
-							<p className="font-poppins text-[16px] text-[#4D4732] leading-[1.6] mb-8">
-								Foto-foto sesi Anda dari "{data.service.service_name}" saat ini sedang dalam tahap
-								pengeditan warna. Kami memastikan setiap foto sesuai dengan kehangatan khas Golden
-								Hour kami.
-							</p>
-
-							<div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8">
-								<div className="flex items-center gap-3">
-									<Clock className="w-5 h-5 text-[#1A1C1C]" />
-									<span className="font-poppins text-[16px] text-[#1A1C1C]">
-										Estimasi Selesai : 2 Hari
+						{/* Process Status (Hanya tampil jika sukses) */}
+						{isSuccess && (
+							<div className="bg-[#E2E2E2] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-8 relative overflow-hidden">
+								<div className="bg-[#705E00] inline-block px-4 py-1.5 rounded-full mb-6">
+									<span className="font-poppins font-semibold text-[10px] text-white tracking-[0.1em] uppercase">
+										STATUS PROSES
 									</span>
 								</div>
-								<div className="flex items-center gap-3">
-									<ImageIcon className="w-5 h-5 text-[#1A1C1C]" />
-									<span className="font-poppins text-[16px] text-[#1A1C1C]">
-										Total Foto: 45 File
+
+								<h3 className="font-poppins font-semibold text-[24px] text-[#1A1C1C] mb-4">
+									Proses Editing Sedang Berlangsung.
+								</h3>
+
+								<p className="font-poppins text-[16px] text-[#4D4732] leading-[1.6] mb-8">
+									Foto-foto sesi Anda dari "{data.service.service_name}" saat ini sedang dalam tahap
+									pengeditan warna. Kami memastikan setiap foto sesuai dengan kehangatan khas Golden
+									Hour kami.
+								</p>
+
+								<div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-8">
+									<div className="flex items-center gap-3">
+										<Clock className="w-5 h-5 text-[#1A1C1C]" />
+										<span className="font-poppins text-[16px] text-[#1A1C1C]">
+											Estimasi Selesai : 2 Hari
+										</span>
+									</div>
+									<div className="flex items-center gap-3">
+										<ImageIcon className="w-5 h-5 text-[#1A1C1C]" />
+										<span className="font-poppins text-[16px] text-[#1A1C1C]">
+											Total Foto: 45 File
+										</span>
+									</div>
+								</div>
+
+								<div className="flex items-center gap-2 text-[#4D4732]">
+									<Clock className="w-4 h-4" />
+									<span className="font-poppins text-[14px]">
+										{formattedDate} • {formattedTime}
 									</span>
 								</div>
 							</div>
+						)}
 
-							<div className="flex items-center gap-2 text-[#4D4732]">
-								<Clock className="w-4 h-4" />
-								<span className="font-poppins text-[14px]">
-									{formattedDate} • {formattedTime}
-								</span>
-							</div>
+						{/* Action Buttons */}
+						<div className="bg-white rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-8 flex flex-col gap-4">
+							<Link
+								href="/my-bookings"
+								className="w-full bg-[#1A1C1C] hover:bg-black transition-colors text-white font-poppins font-bold text-[16px] py-4 rounded-[20px] flex items-center justify-center gap-2">
+								Lihat Tiket Saya
+								<ArrowRight className="w-5 h-5" />
+							</Link>
+							<Link
+								href="/"
+								className="w-full bg-white border-2 border-[#E2E2E2] hover:bg-gray-50 transition-colors text-[#1A1C1C] font-poppins font-bold text-[16px] py-4 rounded-[20px] flex items-center justify-center gap-2">
+								<Home className="w-5 h-5" />
+								Kembali ke Beranda
+							</Link>
 						</div>
 
 						{/* Contact Support */}

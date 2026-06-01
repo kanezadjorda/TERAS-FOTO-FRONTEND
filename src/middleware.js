@@ -25,7 +25,8 @@ export function middleware(request) {
 
 	// Rute yang dilindungi
 	const isCustomerProtectedRoute =
-		pathname.startsWith('/my-bookings') || pathname.startsWith('/booking');
+		pathname.startsWith('/my-bookings') ||
+		(pathname.startsWith('/booking') && !pathname.startsWith('/booking/success'));
 	const isInternalProtectedRoute =
 		(pathname.startsWith('/admin') && !pathname.startsWith('/admin-login')) ||
 		pathname.startsWith('/cashier');
