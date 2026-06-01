@@ -1,0 +1,1 @@
+- Never prefix sensitive environment variables with `NEXT_PUBLIC_`.

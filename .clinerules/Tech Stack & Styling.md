@@ -1,0 +1,4 @@
+- **Next.js App Router:** Strictly use `app/` directory.
+- **Tailwind CSS:** Use it for all styling. Build a `cn()` utility (`clsx` + `tailwind-merge`) to handle class conflicts safely.
+- **Variant Authority:** Use `class-variance-authority` (CVA) for complex UI components (Buttons, Badges, etc).
+- **Images & Links:** STRICTLY use `next/image` (`<Image>`) and `next/link` (`<Link>`). Never use raw `<img>` or `<a>` tags for internal assets/routing.

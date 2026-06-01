@@ -1,0 +1,2 @@
+- **A11y:** Ensure semantic HTML. Forms must have `<label>`, buttons must have `aria-label` if icon-only. Focus states must be visible (`focus-visible:ring`).
+- **Boundaries:** Implement `loading.jsx` (Skeletons, not spinners) and `error.jsx` for all major route segments.

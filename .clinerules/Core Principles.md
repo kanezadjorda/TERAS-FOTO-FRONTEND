@@ -1,0 +1,4 @@
+- **Server First:** Default to React Server Components (RSC). Push `'use client'` as far down the component tree as possible. Only use it when strictly necessary (hooks, event listeners, browser APIs).
+- **Composition over Configuration:** Avoid massive prop drilling. Use `children` and slot patterns.
+- **Predictability:** Keep components small (< 200 lines). Extract reusable logic.
+- **User First:** Performance is a feature. Avoid premature optimization, but never compromise on LCP and CLS.
