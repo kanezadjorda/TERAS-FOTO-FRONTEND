@@ -118,7 +118,7 @@ export function Footer() {
 				{/* Copyright */}
 				<div className="border-t border-[#4D4732]/10 pt-8 text-center">
 					<p className="font-poppins text-base text-[#4D4732]/60">
-						© 2024 Teras Foto Studio. Captured with warmth.
+						© 2026 Teras Foto Studio. Captured with warmth.
 					</p>
 				</div>
 			</div>

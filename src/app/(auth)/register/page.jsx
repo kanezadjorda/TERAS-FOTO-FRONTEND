@@ -71,6 +71,13 @@ export default function RegisterPage() {
 		}
 	};
 
+	const fullNameField = register('fullName');
+	const emailField = register('email');
+	const phoneNumberField = register('phoneNumber');
+	const passwordField = register('password');
+	const confirmPasswordField = register('confirmPassword');
+	const agreeTermsField = register('agreeTerms');
+
 	return (
 		<main className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-white bg-neutral-900">
 			{/* Sisi Kiri: Visual Showcase & Stats (Desktop Only) */}
@@ -195,7 +202,10 @@ export default function RegisterPage() {
 								autoComplete="name"
 								className="block w-full h-[55px] rounded-[20px] border-2 border-[#F1EEE6] px-5 text-slate-900 placeholder-slate-400 focus:border-[#705D00] focus:outline-none focus:ring-0 sm:text-sm transition-colors"
 								placeholder="Enter your full name"
-								{...register('fullName')}
+								name={fullNameField.name}
+								onChange={fullNameField.onChange}
+								onBlur={fullNameField.onBlur}
+								ref={fullNameField.ref}
 							/>
 							{errors.fullName && (
 								<p className="text-xs text-red-600 font-medium mt-1" id="fullName-error">
@@ -217,7 +227,10 @@ export default function RegisterPage() {
 								autoComplete="email"
 								className="block w-full h-[55px] rounded-[20px] border-2 border-[#F1EEE6] px-5 text-slate-900 placeholder-slate-400 focus:border-[#705D00] focus:outline-none focus:ring-0 sm:text-sm transition-colors"
 								placeholder="rusdiantoggwp@gmail.com"
-								{...register('email')}
+								name={emailField.name}
+								onChange={emailField.onChange}
+								onBlur={emailField.onBlur}
+								ref={emailField.ref}
 							/>
 							{errors.email && (
 								<p className="text-xs text-red-600 font-medium mt-1" id="email-error">
@@ -243,7 +256,10 @@ export default function RegisterPage() {
 									autoComplete="tel"
 									className="block w-full h-full px-5 text-slate-900 placeholder-slate-400 focus:outline-none sm:text-sm"
 									placeholder="812 3456 7890"
-									{...register('phoneNumber')}
+									name={phoneNumberField.name}
+									onChange={phoneNumberField.onChange}
+									onBlur={phoneNumberField.onBlur}
+									ref={phoneNumberField.ref}
 								/>
 							</div>
 							{errors.phoneNumber && (
@@ -269,7 +285,10 @@ export default function RegisterPage() {
 										autoComplete="new-password"
 										className="block w-full h-[55px] rounded-[20px] border-2 border-[#F1EEE6] pl-5 pr-12 text-slate-900 placeholder-slate-400 focus:border-[#705D00] focus:outline-none focus:ring-0 sm:text-sm transition-colors"
 										placeholder="••••••••"
-										{...register('password')}
+										name={passwordField.name}
+										onChange={passwordField.onChange}
+										onBlur={passwordField.onBlur}
+										ref={passwordField.ref}
 									/>
 									<button
 										type="button"
@@ -300,7 +319,10 @@ export default function RegisterPage() {
 										autoComplete="new-password"
 										className="block w-full h-[55px] rounded-[20px] border-2 border-[#F1EEE6] pl-5 pr-12 text-slate-900 placeholder-slate-400 focus:border-[#705D00] focus:outline-none focus:ring-0 sm:text-sm transition-colors"
 										placeholder="••••••••"
-										{...register('confirmPassword')}
+										name={confirmPasswordField.name}
+										onChange={confirmPasswordField.onChange}
+										onBlur={confirmPasswordField.onBlur}
+										ref={confirmPasswordField.ref}
 									/>
 									<button
 										type="button"
@@ -334,7 +356,10 @@ export default function RegisterPage() {
 										id="agreeTerms"
 										type="checkbox"
 										className="h-5 w-5 rounded border-2 border-[#F1EEE6] text-[#705D00] focus:ring-[#705D00] transition-colors cursor-pointer"
-										{...register('agreeTerms')}
+										name={agreeTermsField.name}
+										onChange={agreeTermsField.onChange}
+										onBlur={agreeTermsField.onBlur}
+										ref={agreeTermsField.ref}
 									/>
 								</div>
 								<label

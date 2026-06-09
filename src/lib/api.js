@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
 /**
@@ -31,7 +33,6 @@ async function request(endpoint, options = {}) {
 	// Jika token tidak disediakan di header, coba ambil dari js-cookie (hanya di sisi klien)
 	if (!headers['Authorization']) {
 		if (typeof window !== 'undefined') {
-			const Cookies = require('js-cookie');
 			const token = Cookies.get('token');
 			if (token) {
 				headers['Authorization'] = `Bearer ${token}`;

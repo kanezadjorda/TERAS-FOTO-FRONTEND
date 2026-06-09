@@ -29,11 +29,14 @@ const mockHistory = [
 	},
 ];
 
-const statusStyles = {
-	Completed: 'bg-[#DCFCE7] text-[#15803D]',
-	Confirmed: 'bg-[#DBEAFE] text-[#1D4ED8]',
-	PAID: 'bg-[#FEF9C3] text-[#166534]',
-	Pending: 'bg-[#FFEDD5] text-[#C2410C]',
+const getStatusStyle = (status) => {
+	switch (status) {
+		case 'Completed': return 'bg-[#DCFCE7] text-[#15803D]';
+		case 'Confirmed': return 'bg-[#DBEAFE] text-[#1D4ED8]';
+		case 'PAID': return 'bg-[#FEF9C3] text-[#166534]';
+		case 'Pending': return 'bg-[#FFEDD5] text-[#C2410C]';
+		default: return '';
+	}
 };
 
 export function BookingHistoryPreview() {
@@ -82,7 +85,7 @@ export function BookingHistoryPreview() {
 								<td className="py-4">
 									<span className={cn(
 										"inline-flex items-center px-3 py-1 rounded-full font-poppins font-bold text-[10px] md:text-[12px] uppercase tracking-wider",
-										statusStyles[item.status]
+										getStatusStyle(item.status)
 									)}>
 										{item.status}
 									</span>

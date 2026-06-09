@@ -17,13 +17,16 @@ import {
 } from 'lucide-react';
 import { format as formatDate, parseISO } from 'date-fns';
 
-const statusStyles = {
-	PENDING: 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]', // Kuning lembut (PENMNG di gambar)
-	PENDING_PAYMENT: 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]', // Kuning lembut
-	CONFIRMED: 'bg-[#E0F7FA] text-[#006064] border-[#B2EBF2]', // Biru muda lembut (C3 NaIRMEM di gambar)
-	COMPLETED: 'bg-[#E8E8E8] text-[#4D4732] border-[#D6D6D6]', // Abu-abu lembut (C3MPLExEM di gambar)
-	CANCELLED: 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]', // Merah lembut
-	CANCELED: 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]', // Merah lembut
+const getStatusStyle = (status) => {
+	switch (status) {
+		case 'PENDING': return 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]';
+		case 'PENDING_PAYMENT': return 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]';
+		case 'CONFIRMED': return 'bg-[#E0F7FA] text-[#006064] border-[#B2EBF2]';
+		case 'COMPLETED': return 'bg-[#E8E8E8] text-[#4D4732] border-[#D6D6D6]';
+		case 'CANCELLED': return 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]';
+		case 'CANCELED': return 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]';
+		default: return 'bg-gray-50 text-gray-500 border-gray-100';
+	}
 };
 
 export default function BookingsPage() {
@@ -344,9 +347,7 @@ export default function BookingsPage() {
 										{/* Status Badge */}
 										<td className="py-4">
 											<span
-												className={`inline-block font-poppins font-bold text-[10px] tracking-wider px-3 py-1.5 rounded-full border ${
-													statusStyles[booking.status] || 'bg-gray-50 text-gray-500 border-gray-100'
-												}`}>
+												className={`inline-block font-poppins font-bold text-[10px] tracking-wider px-3 py-1.5 rounded-full border ${getStatusStyle(booking.status)}`}>
 												{booking.status}
 											</span>
 										</td>

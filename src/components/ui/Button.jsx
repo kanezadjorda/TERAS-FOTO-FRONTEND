@@ -28,6 +28,29 @@ const buttonVariants = cva(
 	},
 );
 
-export function Button({ className, variant, size, shape, ...props }) {
-	return <button className={cn(buttonVariants({ variant, size, shape, className }))} {...props} />;
+export function Button({
+	className,
+	variant,
+	size,
+	shape,
+	type = 'button',
+	disabled,
+	onClick,
+	children,
+	id,
+	name,
+	value,
+}) {
+	return (
+		<button
+			className={cn(buttonVariants({ variant, size, shape, className }))}
+			type={type}
+			disabled={disabled}
+			onClick={onClick}
+			id={id}
+			name={name}
+			value={value}>
+			{children}
+		</button>
+	);
 }

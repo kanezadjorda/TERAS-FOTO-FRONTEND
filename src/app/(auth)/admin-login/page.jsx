@@ -44,6 +44,9 @@ export default function AdminLoginPage() {
 		}
 	};
 
+	const emailField = register('email');
+	const passwordField = register('password');
+
 	return (
 		<div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden font-sans">
 			{/* Background Image */}
@@ -101,7 +104,10 @@ export default function AdminLoginPage() {
 							<input
 								type="email"
 								autoComplete="email"
-								{...register('email')}
+								name={emailField.name}
+								onChange={emailField.onChange}
+								onBlur={emailField.onBlur}
+								ref={emailField.ref}
 								className={`w-full pl-12 pr-4 py-3.5 bg-white border-2 rounded-[20px] text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFD701] focus:border-transparent transition-all text-sm md:text-base ${
 									errors.email ? 'border-red-500' : 'border-[#F1EEE6]'
 								}`}
@@ -125,7 +131,10 @@ export default function AdminLoginPage() {
 							<input
 								type={showPassword ? 'text' : 'password'}
 								autoComplete="current-password"
-								{...register('password')}
+								name={passwordField.name}
+								onChange={passwordField.onChange}
+								onBlur={passwordField.onBlur}
+								ref={passwordField.ref}
 								className={`w-full pl-12 pr-12 py-3.5 bg-white border-2 rounded-[20px] text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFD701] focus:border-transparent transition-all text-sm md:text-base ${
 									errors.password ? 'border-red-500' : 'border-[#F1EEE6]'
 								}`}

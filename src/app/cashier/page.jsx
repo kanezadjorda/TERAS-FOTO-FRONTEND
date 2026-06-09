@@ -146,20 +146,26 @@ function BookingCard({ booking, onUpdateStatus, onAddOn, onManualPayment }) {
 	const startTime = new Date(booking.start_time);
 	const endTime = new Date(booking.end_time);
 
-	const statusColors = {
-		pending_payment: 'bg-yellow-100 text-yellow-800',
-		partial: 'bg-blue-100 text-blue-800',
-		confirmed: 'bg-green-100 text-green-800',
-		arrived: 'bg-purple-100 text-purple-800',
-		completed: 'bg-gray-100 text-gray-800',
+	const getStatusColor = (status) => {
+		switch (status) {
+			case 'pending_payment': return 'bg-yellow-100 text-yellow-800';
+			case 'partial': return 'bg-blue-100 text-blue-800';
+			case 'confirmed': return 'bg-green-100 text-green-800';
+			case 'arrived': return 'bg-purple-100 text-purple-800';
+			case 'completed': return 'bg-gray-100 text-gray-800';
+			default: return 'bg-gray-100 text-gray-800';
+		}
 	};
 
-	const statusLabels = {
-		pending_payment: 'Menunggu Pembayaran',
-		partial: 'DP Dibayar',
-		confirmed: 'Lunas',
-		arrived: 'Hadir',
-		completed: 'Selesai',
+	const getStatusLabel = (status) => {
+		switch (status) {
+			case 'pending_payment': return 'Menunggu Pembayaran';
+			case 'partial': return 'DP Dibayar';
+			case 'confirmed': return 'Lunas';
+			case 'arrived': return 'Hadir';
+			case 'completed': return 'Selesai';
+			default: return status;
+		}
 	};
 
 	return (
@@ -175,9 +181,9 @@ function BookingCard({ booking, onUpdateStatus, onAddOn, onManualPayment }) {
 				<span
 					className={cn(
 						'px-2.5 py-1 rounded-full text-xs font-medium',
-						statusColors[booking.booking_status] || 'bg-gray-100 text-gray-800',
+						getStatusColor(booking.booking_status),
 					)}>
-					{statusLabels[booking.booking_status] || booking.booking_status}
+					{getStatusLabel(booking.booking_status)}
 				</span>
 			</div>
 

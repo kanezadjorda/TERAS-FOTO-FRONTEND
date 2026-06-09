@@ -112,6 +112,12 @@ export default function CreateServiceForm() {
 		}
 	};
 
+	const serviceNameField = register('service_name');
+	const descriptionField = register('description');
+	const priceField = register('price');
+	const durationMinutesField = register('duration_minutes');
+	const roomIdField = register('room_id');
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
 			{submitSuccess && (
@@ -190,7 +196,10 @@ export default function CreateServiceForm() {
 						<input
 							id="service_name"
 							type="text"
-							{...register('service_name')}
+							name={serviceNameField.name}
+							onChange={serviceNameField.onChange}
+							onBlur={serviceNameField.onBlur}
+							ref={serviceNameField.ref}
 							placeholder="Contoh: Self Photo Studio - Couple"
 							className={`w-full px-5 py-4 rounded-2xl border ${
 								errors.service_name
@@ -213,7 +222,10 @@ export default function CreateServiceForm() {
 						<textarea
 							id="description"
 							rows={4}
-							{...register('description')}
+							name={descriptionField.name}
+							onChange={descriptionField.onChange}
+							onBlur={descriptionField.onBlur}
+							ref={descriptionField.ref}
 							placeholder="Jelaskan detail layanan, apa saja yang didapatkan pelanggan, dll..."
 							className={`w-full px-5 py-4 rounded-2xl border ${
 								errors.description
@@ -241,7 +253,10 @@ export default function CreateServiceForm() {
 								<input
 									id="price"
 									type="number"
-									{...register('price')}
+									name={priceField.name}
+									onChange={priceField.onChange}
+									onBlur={priceField.onBlur}
+									ref={priceField.ref}
 									placeholder="150000"
 									className={`w-full pl-12 pr-5 py-4 rounded-2xl border ${
 										errors.price
@@ -265,7 +280,10 @@ export default function CreateServiceForm() {
 							<input
 								id="duration_minutes"
 								type="number"
-								{...register('duration_minutes')}
+								name={durationMinutesField.name}
+								onChange={durationMinutesField.onChange}
+								onBlur={durationMinutesField.onBlur}
+								ref={durationMinutesField.ref}
 								placeholder="45"
 								className={`w-full px-5 py-4 rounded-2xl border ${
 									errors.duration_minutes
@@ -290,7 +308,10 @@ export default function CreateServiceForm() {
 						</label>
 						<select
 							id="room_id"
-							{...register('room_id')}
+							name={roomIdField.name}
+							onChange={roomIdField.onChange}
+							onBlur={roomIdField.onBlur}
+							ref={roomIdField.ref}
 							disabled={roomsLoading}
 							className={`w-full px-5 py-4 rounded-2xl border ${
 								errors.room_id
