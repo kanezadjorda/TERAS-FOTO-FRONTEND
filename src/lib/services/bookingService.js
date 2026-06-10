@@ -42,3 +42,7 @@ export const getScheduleEvents = async (month, options = {}) => {
 	const params = month ? `?month=${month}` : '';
 	return api.get(`/admin/schedule/events${params}`, options);
 };
+
+export const getBookingStats = async (options = {}) => {
+	return api.get(`/admin/bookings/stats`, options);
+};

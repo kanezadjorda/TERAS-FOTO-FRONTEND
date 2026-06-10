@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import useSWR from 'swr';
-import { getAllBookingsAdmin } from '@/lib/services/bookingService';
+import { getAllBookingsAdmin, getBookingStats } from '@/lib/services/bookingService';
 import { formatRupiah } from '@/utils/format';
 import {
 	Calendar,
@@ -17,15 +17,22 @@ import {
 } from 'lucide-react';
 import { format as formatDate, parseISO } from 'date-fns';
 
-const getStatusStyle = (status) => {
+const getStatusStyle = status => {
 	switch (status) {
-		case 'PENDING': return 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]';
-		case 'PENDING_PAYMENT': return 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]';
-		case 'CONFIRMED': return 'bg-[#E0F7FA] text-[#006064] border-[#B2EBF2]';
-		case 'COMPLETED': return 'bg-[#E8E8E8] text-[#4D4732] border-[#D6D6D6]';
-		case 'CANCELLED': return 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]';
-		case 'CANCELED': return 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]';
-		default: return 'bg-gray-50 text-gray-500 border-gray-100';
+		case 'PENDING':
+			return 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]';
+		case 'PENDING_PAYMENT':
+			return 'bg-[#FFF9C4] text-[#705D00] border-[#FFF59D]';
+		case 'CONFIRMED':
+			return 'bg-[#E0F7FA] text-[#006064] border-[#B2EBF2]';
+		case 'COMPLETED':
+			return 'bg-[#E8E8E8] text-[#4D4732] border-[#D6D6D6]';
+		case 'CANCELLED':
+			return 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]';
+		case 'CANCELED':
+			return 'bg-[#FFEBEE] text-[#C62828] border-[#FFCDD2]';
+		default:
+			return 'bg-gray-50 text-gray-500 border-gray-100';
 	}
 };
 
@@ -52,6 +59,12 @@ export default function BookingsPage() {
 		}),
 	);
 
+	const { data: statResponse, isLoading: statsLoading } = useSWR('/admin/bookings/stats', () =>
+		getBookingStats(),
+	);
+
+	const statsData = statResponse?.data || [];
+
 	const backendBookings = bookingsResponse?.data || [];
 	const paginationMeta = bookingsResponse?.meta?.pagination || {
 		current_page: 1,
@@ -62,17 +75,9 @@ export default function BookingsPage() {
 
 	// Hitung statistik secara manual dari data booking yang di-fetch
 	const stats = {
-		totalBookingsThisMonth: paginationMeta.total_items || 0,
-		pendingApproval: backendBookings.filter(b => {
-			const status = b.status?.toUpperCase();
-			return status === 'PENDING' || status === 'PENDING_PAYMENT';
-		}).length,
-		revenueForecast: backendBookings
-			.filter(b => {
-				const status = b.status?.toUpperCase();
-				return status !== 'CANCELLED' && status !== 'CANCELED';
-			}) // Hanya hitung yang tidak dibatalkan
-			.reduce((acc, curr) => acc + (Number(curr.price) || 0), 0),
+		totalBookingsThisMonth: statsData.total_bookings || 0,
+		pendingApproval: statsData.pending_approval || 0,
+		revenueForecast: statsData.revenue_forecast || 0,
 	};
 
 	// Map backend bookings ke format UI, fallback ke mockBookings jika kosong
@@ -169,7 +174,7 @@ export default function BookingsPage() {
 				<div className="bg-white border border-gray-100 rounded-[24px] p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-all min-h-[140px]">
 					<div className="flex justify-between items-start">
 						<span className="font-inter text-xs font-bold text-gray-400 uppercase tracking-wider">
-							Revenue (Current Page)
+							Total Revenue Forecast
 						</span>
 						<div className="p-2 rounded-lg bg-gray-50 text-gray-400">
 							<DollarSign className="w-4 h-4" />

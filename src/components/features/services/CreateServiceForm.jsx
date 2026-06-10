@@ -201,7 +201,7 @@ export default function CreateServiceForm() {
 							onBlur={serviceNameField.onBlur}
 							ref={serviceNameField.ref}
 							placeholder="Contoh: Self Photo Studio - Couple"
-							className={`w-full px-5 py-4 rounded-2xl border ${
+							className={`w-full px-5 py-4 rounded-2xl border text-black ${
 								errors.service_name
 									? 'border-rose-500 focus:ring-rose-200'
 									: 'border-gray-200 focus:border-[#705D00] focus:ring-[#705D00]/10'
@@ -227,7 +227,7 @@ export default function CreateServiceForm() {
 							onBlur={descriptionField.onBlur}
 							ref={descriptionField.ref}
 							placeholder="Jelaskan detail layanan, apa saja yang didapatkan pelanggan, dll..."
-							className={`w-full px-5 py-4 rounded-2xl border ${
+							className={`w-full px-5 py-4 rounded-2xl border text-black ${
 								errors.description
 									? 'border-rose-500 focus:ring-rose-200'
 									: 'border-gray-200 focus:border-[#705D00] focus:ring-[#705D00]/10'
@@ -258,7 +258,7 @@ export default function CreateServiceForm() {
 									onBlur={priceField.onBlur}
 									ref={priceField.ref}
 									placeholder="150000"
-									className={`w-full pl-12 pr-5 py-4 rounded-2xl border ${
+									className={`w-full pl-12 pr-5 py-4 rounded-2xl border text-black ${
 										errors.price
 											? 'border-rose-500 focus:ring-rose-200'
 											: 'border-gray-200 focus:border-[#705D00] focus:ring-[#705D00]/10'
@@ -285,7 +285,7 @@ export default function CreateServiceForm() {
 								onBlur={durationMinutesField.onBlur}
 								ref={durationMinutesField.ref}
 								placeholder="45"
-								className={`w-full px-5 py-4 rounded-2xl border ${
+								className={`w-full px-5 py-4 rounded-2xl border text-black ${
 									errors.duration_minutes
 										? 'border-rose-500 focus:ring-rose-200'
 										: 'border-gray-200 focus:border-[#705D00] focus:ring-[#705D00]/10'
@@ -313,7 +313,7 @@ export default function CreateServiceForm() {
 							onBlur={roomIdField.onBlur}
 							ref={roomIdField.ref}
 							disabled={roomsLoading}
-							className={`w-full px-5 py-4 rounded-2xl border ${
+							className={`w-full px-5 py-4 rounded-2xl border text-black ${
 								errors.room_id
 									? 'border-rose-500 focus:ring-rose-200'
 									: 'border-gray-200 focus:border-[#705D00] focus:ring-[#705D00]/10'

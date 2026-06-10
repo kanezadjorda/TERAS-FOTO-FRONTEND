@@ -131,7 +131,7 @@ export default function AdminDashboardPage() {
 					</button>
 					<div className="flex items-center gap-3 bg-white border border-gray-100 rounded-full py-1.5 pl-2 pr-4 shadow-sm">
 						<div className="relative w-8 h-8 rounded-full overflow-hidden bg-gray-100">
-							<Image
+							{/* <Image
 								src="/images/avatar-placeholder.png"
 								alt="Admin Profile"
 								fill
@@ -142,7 +142,7 @@ export default function AdminDashboardPage() {
 									e.target.src =
 										"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E";
 								}}
-							/>
+							/> */}
 						</div>
 						<span className="font-inter text-sm font-semibold text-[#4D4732]">
 							{user?.full_name?.split(' ')[0] || 'Admin'}
@@ -342,9 +342,9 @@ export default function AdminDashboardPage() {
 			{/* Bottom Section Grid */}
 			<div className="grid grid-cols-1 md:grid-cols-5 gap-6">
 				{/* Left: Studio Capacity Card */}
-				<div className="md:col-span-2 relative rounded-[24px] overflow-hidden min-h-[200px] flex flex-col justify-end p-6 group shadow-sm">
+				<div className="md:col-span-2 relative rounded-3xl overflow-hidden min-h-50 flex flex-col justify-end p-6 group shadow-sm">
 					{/* Background Image */}
-					<Image
+					{/* <Image
 						src="/images/studio-placeholder.jpg"
 						alt="Studio Capacity"
 						fill
@@ -355,9 +355,9 @@ export default function AdminDashboardPage() {
 							e.target.src =
 								"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400' fill='%234D4732'%3E%3Crect width='100%25' height='100%25' fill='%234D4732'/%3E%3Ctext x='50%25' y='50%25' fill='%23fff' font-family='sans-serif' font-size='24' text-anchor='middle'%3EStudio Capacity%3C/text%3E%3C/svg%3E";
 						}}
-					/>
+					/> */}
 					{/* Dark Overlay */}
-					<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+					<div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent"></div>
 
 					<div className="relative z-10 text-white">
 						<h3 className="font-poppins font-bold text-2xl">Studio Capacity: 85%</h3>
