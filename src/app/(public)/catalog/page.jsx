@@ -1,6 +1,8 @@
 import { getAllServices } from '@/lib/services/serviceService';
 import CatalogGrid from '@/components/features/catalog/CatalogGrid';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
 	title: 'Katalog Layanan - Teras Foto Studio',
 	description:
