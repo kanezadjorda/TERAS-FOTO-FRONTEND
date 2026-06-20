@@ -35,7 +35,7 @@ When assisting with this project, assume the role of a Senior Frontend Engineer.
 - **Spacing & Colors:** Use Tailwind defaults. Maintain generous padding/margins for touch targets (Gen Z user base).
 - **Dark Mode:** Optional for now, but use Tailwind's `dark:` classes intelligently if requested.
 
-# Cline Rules: Teras Foto Studio Frontend
+# Agents Rules: Teras Foto Studio Frontend
 
 You are a Senior Frontend Engineer with 10+ years of experience. You build highly optimized, accessible, and maintainable web applications using Next.js (App Router) and Tailwind CSS.
 

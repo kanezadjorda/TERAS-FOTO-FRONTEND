@@ -9,6 +9,7 @@ import { getAllRooms } from '@/lib/services/roomService';
 import { createService, uploadImage } from '@/lib/services/serviceService';
 import { useRouter } from 'next/navigation';
 import { Upload, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import Image from 'next/image';
 
 // Skema validasi menggunakan Zod
 const serviceSchema = z.object({
@@ -112,11 +113,6 @@ export default function CreateServiceForm() {
 		}
 	};
 
-	const serviceNameField = register('service_name');
-	const descriptionField = register('description');
-	const priceField = register('price');
-	const durationMinutesField = register('duration_minutes');
-	const roomIdField = register('room_id');
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -151,10 +147,12 @@ export default function CreateServiceForm() {
 					<div className="relative border-2 border-dashed border-gray-200 hover:border-[#705D00] rounded-[24px] transition-colors overflow-hidden bg-gray-50 aspect-video lg:aspect-square flex flex-col items-center justify-center p-6 text-center group">
 						{imagePreview ? (
 							<>
-								<img
+								<Image
 									src={imagePreview}
 									alt="Preview"
-									className="absolute inset-0 w-full h-full object-cover"
+									fill
+									className="absolute inset-0 object-cover"
+									unoptimized
 								/>
 								<div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
 									<span className="text-white text-sm font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">
@@ -196,10 +194,7 @@ export default function CreateServiceForm() {
 						<input
 							id="service_name"
 							type="text"
-							name={serviceNameField.name}
-							onChange={serviceNameField.onChange}
-							onBlur={serviceNameField.onBlur}
-							ref={serviceNameField.ref}
+							{...register('service_name')}
 							placeholder="Contoh: Self Photo Studio - Couple"
 							className={`w-full px-5 py-4 rounded-2xl border text-black ${
 								errors.service_name
@@ -222,10 +217,7 @@ export default function CreateServiceForm() {
 						<textarea
 							id="description"
 							rows={4}
-							name={descriptionField.name}
-							onChange={descriptionField.onChange}
-							onBlur={descriptionField.onBlur}
-							ref={descriptionField.ref}
+							{...register('description')}
 							placeholder="Jelaskan detail layanan, apa saja yang didapatkan pelanggan, dll..."
 							className={`w-full px-5 py-4 rounded-2xl border text-black ${
 								errors.description
@@ -253,10 +245,7 @@ export default function CreateServiceForm() {
 								<input
 									id="price"
 									type="number"
-									name={priceField.name}
-									onChange={priceField.onChange}
-									onBlur={priceField.onBlur}
-									ref={priceField.ref}
+									{...register('price')}
 									placeholder="150000"
 									className={`w-full pl-12 pr-5 py-4 rounded-2xl border text-black ${
 										errors.price
@@ -280,10 +269,7 @@ export default function CreateServiceForm() {
 							<input
 								id="duration_minutes"
 								type="number"
-								name={durationMinutesField.name}
-								onChange={durationMinutesField.onChange}
-								onBlur={durationMinutesField.onBlur}
-								ref={durationMinutesField.ref}
+								{...register('duration_minutes')}
 								placeholder="45"
 								className={`w-full px-5 py-4 rounded-2xl border text-black ${
 									errors.duration_minutes
@@ -308,10 +294,7 @@ export default function CreateServiceForm() {
 						</label>
 						<select
 							id="room_id"
-							name={roomIdField.name}
-							onChange={roomIdField.onChange}
-							onBlur={roomIdField.onBlur}
-							ref={roomIdField.ref}
+							{...register('room_id')}
 							disabled={roomsLoading}
 							className={`w-full px-5 py-4 rounded-2xl border text-black ${
 								errors.room_id

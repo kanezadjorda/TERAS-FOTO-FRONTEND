@@ -273,7 +273,7 @@ function BookingSuccessContent() {
 								</h3>
 
 								<p className="font-poppins text-[16px] text-[#4D4732] leading-[1.6] mb-8">
-									Foto-foto sesi Anda dari "{data.service.service_name}" saat ini sedang dalam tahap
+									Foto-foto sesi Anda dari &quot;{data.service.service_name}&quot; saat ini sedang dalam tahap
 									pengeditan warna. Kami memastikan setiap foto sesuai dengan kehangatan khas Golden
 									Hour kami.
 								</p>

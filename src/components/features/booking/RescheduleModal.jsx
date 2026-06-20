@@ -99,9 +99,6 @@ export default function RescheduleModal({ booking, onClose, onSuccess }) {
 		}
 	};
 
-	const selectedDateField = register('selectedDate');
-	const selectedTimeField = register('selectedTime');
-	const reasonField = register('reason');
 
 	return (
 		<div
@@ -140,10 +137,7 @@ export default function RescheduleModal({ booking, onClose, onSuccess }) {
 						</label>
 						<select
 							id="reschedule-date"
-							name={selectedDateField.name}
-							onChange={selectedDateField.onChange}
-							onBlur={selectedDateField.onBlur}
-							ref={selectedDateField.ref}
+							{...register('selectedDate')}
 							className={`w-full px-4 py-3 font-poppins text-sm text-[#1C1B1B] bg-white border ${
 								errors.selectedDate ? 'border-red-500' : 'border-[#F1EEE6]'
 							} rounded-[15px] focus:outline-none focus:ring-2 focus:ring-[#FFD701] focus:border-transparent transition-all`}
@@ -170,10 +164,7 @@ export default function RescheduleModal({ booking, onClose, onSuccess }) {
 						</label>
 						<select
 							id="reschedule-time"
-							name={selectedTimeField.name}
-							onChange={selectedTimeField.onChange}
-							onBlur={selectedTimeField.onBlur}
-							ref={selectedTimeField.ref}
+							{...register('selectedTime')}
 							className={`w-full px-4 py-3 font-poppins text-sm text-[#1C1B1B] bg-white border ${
 								errors.selectedTime ? 'border-red-500' : 'border-[#F1EEE6]'
 							} rounded-[15px] focus:outline-none focus:ring-2 focus:ring-[#FFD701] focus:border-transparent transition-all`}
@@ -201,10 +192,7 @@ export default function RescheduleModal({ booking, onClose, onSuccess }) {
 						<textarea
 							id="reschedule-reason"
 							rows={3}
-							name={reasonField.name}
-							onChange={reasonField.onChange}
-							onBlur={reasonField.onBlur}
-							ref={reasonField.ref}
+							{...register('reason')}
 							placeholder="Tuliskan alasan Anda mengajukan perubahan jadwal..."
 							className={`w-full px-4 py-3 font-poppins text-sm text-[#1C1B1B] bg-white border ${
 								errors.reason ? 'border-red-500' : 'border-[#F1EEE6]'

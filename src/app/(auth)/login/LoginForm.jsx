@@ -41,9 +41,6 @@ export default function LoginForm() {
 		}
 	};
 
-	const emailField = register('email');
-	const passwordField = register('password');
-
 	return (
 		<div className="mx-auto w-full max-w-[544px] space-y-8">
 			{/* Tab Navigation */}
@@ -95,10 +92,7 @@ export default function LoginForm() {
 						autoComplete="email"
 						className="block w-full h-[55px] rounded-[20px] border-2 border-[#F1EEE6] px-5 text-slate-900 placeholder-slate-400 focus:border-[#705D00] focus:outline-none focus:ring-0 sm:text-sm transition-colors"
 						placeholder="rusdiantoggwp@gmail.com"
-						name={emailField.name}
-						onChange={emailField.onChange}
-						onBlur={emailField.onBlur}
-						ref={emailField.ref}
+						{...register('email')}
 					/>
 					{errors.email && (
 						<p className="text-xs text-red-600 font-medium mt-1" id="email-error">
@@ -128,10 +122,7 @@ export default function LoginForm() {
 							autoComplete="current-password"
 							className="block w-full h-[55px] rounded-[20px] border-2 border-[#F1EEE6] pl-5 pr-12 text-slate-900 placeholder-slate-400 focus:border-[#705D00] focus:outline-none focus:ring-0 sm:text-sm transition-colors"
 							placeholder="••••••••"
-							name={passwordField.name}
-							onChange={passwordField.onChange}
-							onBlur={passwordField.onBlur}
-							ref={passwordField.ref}
+							{...register('password')}
 						/>
 						<button
 							type="button"

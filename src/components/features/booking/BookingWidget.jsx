@@ -27,6 +27,8 @@ import Image from 'next/image';
 // SWR fetcher wrapper
 const fetcher = url => api.get(url);
 
+const EMPTY_ARRAY = [];
+
 export default function BookingWidget() {
 	const { isAuthenticated } = useAuth();
 	const router = useRouter();
@@ -39,7 +41,6 @@ export default function BookingWidget() {
 	const [currentMonth, setCurrentMonth] = useState(startOfMonth(new Date()));
 	const [selectedTime, setSelectedTime] = useState('');
 	const [paymentType, setPaymentType] = useState('dp'); // 'dp' or 'full'
-	const [occupiedSlots, setOccupiedSlots] = useState([]);
 	const [bookingLoading, setBookingLoading] = useState(false);
 	const [bookingError, setBookingLoadingError] = useState('');
 
@@ -50,7 +51,7 @@ export default function BookingWidget() {
 		isLoading: servicesLoading,
 	} = useSWR('/services', fetcher);
 
-	const services = servicesResponse?.data || [];
+	const services = servicesResponse?.data || EMPTY_ARRAY;
 
 	// Set initial service if slug is present in URL
 	useEffect(() => {
@@ -68,28 +69,18 @@ export default function BookingWidget() {
 		}
 	}, [services, initialServiceSlug]);
 
-	// Fetch Occupied Slots when selectedService or currentMonth changes
-	useEffect(() => {
-		if (!selectedService) return;
+	// Fetch Occupied Slots when selectedService or currentMonth changes using useSWR
+	const start = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
+	const end = format(endOfMonth(currentMonth), 'yyyy-MM-dd');
+	const roomId = selectedService?.room_id;
 
-		const fetchAvailability = async () => {
-			try {
-				// Fetch for the current month being viewed
-				const start = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
-				const end = format(endOfMonth(currentMonth), 'yyyy-MM-dd');
-				const roomId = selectedService.room_id;
-
-				const response = await api.get(
-					`/bookings/availability?start_date=${start}&end_date=${end}&room_id=${roomId}`,
-				);
-				setOccupiedSlots(response.data || []);
-			} catch (err) {
-				console.error('Failed to fetch availability:', err);
-			}
-		};
-
-		fetchAvailability();
-	}, [selectedService, currentMonth]);
+	const { data: occupiedSlotsRes } = useSWR(
+		selectedService
+			? `/bookings/availability?start_date=${start}&end_date=${end}&room_id=${roomId}`
+			: null,
+		fetcher
+	);
+	const occupiedSlots = occupiedSlotsRes?.data || EMPTY_ARRAY;
 
 	// Generate Time Slots dynamically based on selected service duration
 	const timeSlots = useMemo(() => {

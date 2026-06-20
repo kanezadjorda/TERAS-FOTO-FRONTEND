@@ -20,6 +20,7 @@ export default function SettingsPage() {
 
 	// Set mounted ke true setelah komponen ter-mount di client
 	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setMounted(true);
 	}, []);
 

@@ -3,19 +3,18 @@ import Link from 'next/link';
 
 export function HeroSection() {
 	return (
-		<section className="relative  w-full h-screen bg-[linear-gradient(90deg,#F0EFF4_50%,#ECECF0_50%)] overflow-hidden flex justify-center">
+		<section className="relative  w-full h-screen  overflow-hidden flex justify-center">
 			{/* Container dengan batas maksimal 1440px */}
-			<div className="relative w-full max-w-[1920] h-full flex items-center px-4 sm:px-8 md:px-12">
+			<div className="relative w-full max-w-[1920px] h-full flex items-center px-4 sm:px-8 md:px-12">
 				{/* Background Image di dalam container 1440px */}
-				<div className="absolute inset-0 z-0">
+				<div className="absolute inset-0 z-0 max-w-[1920px] ">
 					<Image
-						src="/images/hero-bg-4.PNG"
+						src="/images/bg.webp"
 						alt="Teras Foto Studio Hero Background"
 						fill
 						sizes="100vw"
 						priority
-						quality={95}
-						className="object-center"
+						className="object-cover"
 					/>
 				</div>
 

@@ -14,6 +14,7 @@ export function NavbarActions() {
 	const mobileMenuRef = useRef(null);
 
 	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setIsMounted(true);
 	}, []);
 
@@ -61,11 +62,6 @@ export function NavbarActions() {
 							className="text-sm font-semibold text-[#705D00] hover:opacity-80 transition-opacity px-4 py-2 focus-visible:ring-2 focus-visible:ring-[#705D00] focus:outline-none rounded-lg">
 							Sign In
 						</Link>
-						<Link
-							href="/register"
-							className="text-sm font-semibold bg-[#FFD701] text-[#705D00] hover:bg-[#e6c200] transition-all px-5 py-2.5 rounded-[20px] shadow-sm focus-visible:ring-2 focus-visible:ring-[#705D00] focus:outline-none">
-							Register
-						</Link>
 					</div>
 				) : (
 					<div className="relative flex items-center gap-4">
@@ -78,10 +74,9 @@ export function NavbarActions() {
 										? '/cashier'
 										: '/my-bookings'
 							}
-							className="text-sm font-semibold bg-[#FFD701] text-[#705D00] hover:bg-[#e6c200] transition-all px-5 py-2.5 rounded-[20px] shadow-sm focus-visible:ring-2 focus-visible:ring-[#705D00] focus:outline-none">
-							{user.role_id === 1 || user.role_id === 2 ? 'Dashboard' : 'My Bookings'}
+							className="text-sm font-semibold  text-[#705D00] ">
+							{user.role_id === 1 || user.role_id === 2 ? 'Dashboard' : 'Riwayat'}
 						</Link>
-
 						{/* Avatar & Dropdown */}
 						<div className="relative" ref={dropdownRef}>
 							<button
