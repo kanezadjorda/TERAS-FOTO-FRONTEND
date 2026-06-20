@@ -91,7 +91,7 @@ export function BookingHistoryPreview() {
 									</span>
 								</td>
 								<td className="py-4 text-right">
-									<button className="p-2 hover:bg-gray-200 rounded-full transition-colors inline-flex items-center justify-center text-[#4D4732]">
+									<button aria-label="View options" className="p-2 hover:bg-gray-200 rounded-full transition-colors inline-flex items-center justify-center text-[#4D4732]">
 										<MoreHorizontal className="w-5 h-5" />
 									</button>
 								</td>

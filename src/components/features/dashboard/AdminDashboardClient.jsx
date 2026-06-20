@@ -287,10 +287,10 @@ export default function AdminDashboardClient({
 					<div className="flex justify-between items-center border-b border-gray-50 pb-4">
 						<h2 className="font-poppins font-bold text-lg text-[#4D4732]">Weekly Flow</h2>
 						<div className="flex items-center gap-1">
-							<button className="p-1 hover:bg-gray-100 rounded transition-colors">
+							<button aria-label="Previous Week" className="p-1 hover:bg-gray-100 rounded transition-colors">
 								<ChevronLeft className="w-4 h-4 text-gray-500" />
 							</button>
-							<button className="p-1 hover:bg-gray-100 rounded transition-colors">
+							<button aria-label="Next Week" className="p-1 hover:bg-gray-100 rounded transition-colors">
 								<ChevronRight className="w-4 h-4 text-gray-500" />
 							</button>
 						</div>

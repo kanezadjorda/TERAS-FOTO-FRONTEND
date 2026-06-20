@@ -361,7 +361,7 @@ export default function AdminBookingsClient({ initialBookings, initialStats }) {
 
 										{/* Action Button */}
 										<td className="py-4 text-right">
-											<button className="p-2 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-[#705D00] hover:border-[#705D00]/20 hover:bg-[#FAF8F0] transition-all shadow-sm">
+											<button aria-label="View booking details" className="p-2 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-[#705D00] hover:border-[#705D00]/20 hover:bg-[#FAF8F0] transition-all shadow-sm">
 												<Eye className="w-4 h-4" />
 											</button>
 										</td>

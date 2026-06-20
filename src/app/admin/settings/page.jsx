@@ -5,58 +5,76 @@ import { Camera, Shield, Bell, Palette } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+const settingsSchema = z.object({
+	fullName: z.string().min(2, 'Full name must be at least 2 characters'),
+	email: z.string().email('Invalid email address'),
+	phoneNumber: z.string().min(5, 'Phone number must be at least 5 characters'),
+	location: z.string().min(2, 'Location must be at least 2 characters'),
+	currentPassword: z.string().optional(),
+	newPassword: z.string().optional().refine(val => !val || val.length >= 6, {
+		message: 'New password must be at least 6 characters',
+	}),
+});
 
 export default function SettingsPage() {
 	const { user } = useAuth();
 	const [mounted, setMounted] = useState(false);
-	const [formData, setFormData] = useState({
-		fullName: '',
-		email: '',
-		phoneNumber: '+62 812 3456 7890',
-		location: 'Jakarta, Indonesia',
-		currentPassword: '••••••••',
-		newPassword: '',
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		watch,
+		formState: { errors },
+	} = useForm({
+		resolver: zodResolver(settingsSchema),
+		defaultValues: {
+			fullName: '',
+			email: '',
+			phoneNumber: '+62 812 3456 7890',
+			location: 'Jakarta, Indonesia',
+			currentPassword: '',
+			newPassword: '',
+		},
 	});
 
 	// Set mounted ke true setelah komponen ter-mount di client
 	useEffect(() => {
-		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setMounted(true);
 	}, []);
 
 	// Isi formData di client-side setelah mount untuk menghindari cascading render warning di SSR
 	useEffect(() => {
 		if (mounted && user) {
-			// Gunakan setTimeout atau requestAnimationFrame untuk memindahkan pembaruan state ke luar siklus render sinkron
 			const timer = setTimeout(() => {
-				setFormData(prev => {
-					if (prev.fullName === user.full_name && prev.email === user.email) {
-						return prev;
-					}
-					return {
-						...prev,
-						fullName: user.full_name || 'Alex Rivera',
-						email: user.email || 'alex@terasfoto.com',
-					};
+				reset({
+					fullName: user.full_name || 'Alex Rivera',
+					email: user.email || 'alex@terasfoto.com',
+					phoneNumber: '+62 812 3456 7890',
+					location: 'Jakarta, Indonesia',
+					currentPassword: '',
+					newPassword: '',
 				});
 			}, 0);
 			return () => clearTimeout(timer);
 		}
-	}, [mounted, user]);
+	}, [mounted, user, reset]);
 
-	const handleChange = e => {
-		const { name, value } = e.target;
-		setFormData(prev => ({ ...prev, [name]: value }));
-	};
-
-	const handleSubmit = e => {
-		e.preventDefault();
+	const onSubmit = data => {
+		console.log('Saved settings data:', data);
 		alert('Changes saved successfully!');
 	};
 
+	const watchedFullName = watch('fullName');
+	const watchedEmail = watch('email');
+
 	// Tentukan nama dan email yang ditampilkan di profil (fallback ke Alex Rivera jika belum dimuat)
-	const profileName = user?.full_name || formData.fullName || 'Alex Rivera';
-	const profileEmail = user?.email || formData.email || 'alex@terasfoto.com';
+	const profileName = user?.full_name || watchedFullName || 'Alex Rivera';
+	const profileEmail = user?.email || watchedEmail || 'alex@terasfoto.com';
 
 	// Cegah render dinamis sebelum hydration selesai untuk menghindari mismatch
 	if (!mounted) {
@@ -108,7 +126,7 @@ export default function SettingsPage() {
 				</div>
 
 				{/* Right Column: Form */}
-				<form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-8">
+				<form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col gap-8">
 					{/* Personal Details Section */}
 					<div className="flex flex-col gap-6">
 						<h3 className="font-poppins font-bold text-lg text-[#705D00]">Personal Details</h3>
@@ -118,11 +136,12 @@ export default function SettingsPage() {
 								<label className="font-inter text-xs font-medium text-gray-500">Full Name</label>
 								<input
 									type="text"
-									name="fullName"
-									value={formData.fullName}
-									onChange={handleChange}
+									{...register('fullName')}
 									className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-poppins font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#705D00]/20 focus:border-[#705D00] transition-all"
 								/>
+								{errors.fullName && (
+									<p className="text-red-500 text-xs font-inter mt-1">{errors.fullName.message}</p>
+								)}
 							</div>
 
 							{/* Email Address */}
@@ -132,11 +151,12 @@ export default function SettingsPage() {
 								</label>
 								<input
 									type="email"
-									name="email"
-									value={formData.email}
-									onChange={handleChange}
+									{...register('email')}
 									className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-poppins font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#705D00]/20 focus:border-[#705D00] transition-all"
 								/>
+								{errors.email && (
+									<p className="text-red-500 text-xs font-inter mt-1">{errors.email.message}</p>
+								)}
 							</div>
 
 							{/* Phone Number */}
@@ -144,11 +164,12 @@ export default function SettingsPage() {
 								<label className="font-inter text-xs font-medium text-gray-500">Phone Number</label>
 								<input
 									type="text"
-									name="phoneNumber"
-									value={formData.phoneNumber}
-									onChange={handleChange}
+									{...register('phoneNumber')}
 									className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-poppins font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#705D00]/20 focus:border-[#705D00] transition-all"
 								/>
+								{errors.phoneNumber && (
+									<p className="text-red-500 text-xs font-inter mt-1">{errors.phoneNumber.message}</p>
+								)}
 							</div>
 
 							{/* Location */}
@@ -156,11 +177,12 @@ export default function SettingsPage() {
 								<label className="font-inter text-xs font-medium text-gray-500">Location</label>
 								<input
 									type="text"
-									name="location"
-									value={formData.location}
-									onChange={handleChange}
+									{...register('location')}
 									className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-poppins font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#705D00]/20 focus:border-[#705D00] transition-all"
 								/>
+								{errors.location && (
+									<p className="text-red-500 text-xs font-inter mt-1">{errors.location.message}</p>
+								)}
 							</div>
 						</div>
 					</div>
@@ -176,11 +198,12 @@ export default function SettingsPage() {
 								</label>
 								<input
 									type="password"
-									name="currentPassword"
-									value={formData.currentPassword}
-									onChange={handleChange}
+									{...register('currentPassword')}
 									className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-poppins font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#705D00]/20 focus:border-[#705D00] transition-all"
 								/>
+								{errors.currentPassword && (
+									<p className="text-red-500 text-xs font-inter mt-1">{errors.currentPassword.message}</p>
+								)}
 							</div>
 
 							{/* New Password */}
@@ -188,12 +211,13 @@ export default function SettingsPage() {
 								<label className="font-inter text-xs font-medium text-gray-500">New Password</label>
 								<input
 									type="password"
-									name="newPassword"
 									placeholder="Leave blank to keep same"
-									value={formData.newPassword}
-									onChange={handleChange}
+									{...register('newPassword')}
 									className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-poppins font-medium text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#705D00]/20 focus:border-[#705D00] transition-all"
 								/>
+								{errors.newPassword && (
+									<p className="text-red-500 text-xs font-inter mt-1">{errors.newPassword.message}</p>
+								)}
 							</div>
 						</div>
 					</div>
@@ -202,6 +226,7 @@ export default function SettingsPage() {
 					<div className="flex justify-end items-center gap-4 mt-4">
 						<button
 							type="button"
+							onClick={() => reset()}
 							className="px-6 py-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 font-poppins font-bold text-xs tracking-wider rounded-xl transition-colors uppercase shadow-sm">
 							Cancel
 						</button>
