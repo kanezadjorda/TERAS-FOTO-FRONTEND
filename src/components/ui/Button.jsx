@@ -40,6 +40,7 @@ export function Button({
 	id,
 	name,
 	value,
+	...props
 }) {
 	return (
 		<button
@@ -49,7 +50,8 @@ export function Button({
 			onClick={onClick}
 			id={id}
 			name={name}
-			value={value}>
+			value={value}
+			{...props}>
 			{children}
 		</button>
 	);
