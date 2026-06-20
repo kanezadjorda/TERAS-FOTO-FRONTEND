@@ -117,25 +117,15 @@ export default function ContactInfo() {
 								href="https://wa.me/6281246078809"
 								target="_blank"
 								rel="noopener noreferrer"
-								className="flex-1">
-								<Button
-									variant="primary"
-									size="lg"
-									className="w-full bg-[#705D00] hover:bg-[#5c4b00] rounded-xl shadow-lg shadow-[#705D00]/20 py-6">
-									Kunjungi studio
-								</Button>
+								className="flex-1 inline-flex items-center justify-center text-base font-semibold text-white bg-[#705D00] hover:bg-[#5c4b00] rounded-xl shadow-lg shadow-[#705D00]/20 transition-all py-3.5 px-8">
+								Kunjungi studio
 							</a>
 							<a
 								href="https://maps.google.com/?q=Teras+Foto+Studio+Cikande"
 								target="_blank"
 								rel="noopener noreferrer"
-								className="flex-1">
-								<Button
-									variant="outline"
-									size="lg"
-									className="w-full border-[#705D00] text-[#705D00] hover:bg-[#705D00]/5 rounded-xl py-6">
-									Lihat di Google Maps
-								</Button>
+								className="flex-1 inline-flex items-center justify-center text-base font-semibold border border-[#705D00] text-[#705D00] hover:bg-[#705D00]/5 rounded-xl transition-all py-3.5 px-8 bg-white">
+								Lihat di Google Maps
 							</a>
 						</div>
 					</div>

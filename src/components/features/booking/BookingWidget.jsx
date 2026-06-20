@@ -292,6 +292,7 @@ export default function BookingWidget() {
 							<div className="flex gap-2">
 								<button
 									onClick={handlePrevMonth}
+									aria-label="Previous Month"
 									className="w-10 h-10 rounded-full flex items-center justify-center text-[#705D00] hover:bg-[#F1EEE6] transition-colors">
 									<svg
 										width="24"
@@ -310,6 +311,7 @@ export default function BookingWidget() {
 								</button>
 								<button
 									onClick={handleNextMonth}
+									aria-label="Next Month"
 									className="w-10 h-10 rounded-full flex items-center justify-center text-[#705D00] hover:bg-[#F1EEE6] transition-colors">
 									<svg
 										width="24"

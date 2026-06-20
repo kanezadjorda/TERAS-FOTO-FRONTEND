@@ -162,11 +162,13 @@ export default function SchedulePage() {
 						<div className="flex items-center gap-1 bg-gray-100/80 p-1 rounded-xl">
 							<button
 								onClick={prevMonth}
+								aria-label="Previous Month"
 								className="p-1.5 hover:bg-white rounded-lg transition-all text-gray-600 hover:text-gray-900">
 								<ChevronLeft className="w-4 h-4" />
 							</button>
 							<button
 								onClick={nextMonth}
+								aria-label="Next Month"
 								className="p-1.5 hover:bg-white rounded-lg transition-all text-gray-600 hover:text-gray-900">
 								<ChevronRight className="w-4 h-4" />
 							</button>
